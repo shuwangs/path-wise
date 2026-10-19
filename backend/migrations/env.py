@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, pool
 
 from app.config import DATABASE_URL
 from app.database import Base
+from app.models import source
 
 target_metadata = Base.metadata
 
