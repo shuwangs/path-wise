@@ -1,11 +1,24 @@
 """PathWise's minimal local API."""
 import os
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
 
-app = FastAPI(title="PathWise API", version="0.1.0")
+from app.database import engine, get_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    engine.dispose()
+
+
+app = FastAPI(title="PathWise API", version="0.1.0", lifespan=lifespan)
 origins = [
     origin.strip()
     for origin in os.getenv(
@@ -31,4 +44,14 @@ class HealthResponse(BaseModel):
 @app.get("/health", response_model=HealthResponse, tags=["health"])
 def health() -> HealthResponse:
     """Report process health; this does not check a database or external sources."""
+    return HealthResponse(status="ok", service="pathwise-api")
+
+
+@app.get("/ready", response_model=HealthResponse, tags=["health"])
+def ready(db: Session = Depends(get_db)) -> HealthResponse:
+    """Check database connectivity without exposing connection details."""
+    try:
+        db.execute(text("SELECT 1"))
+    except SQLAlchemyError:
+        raise HTTPException(status_code=503, detail="Database unavailable") from None
     return HealthResponse(status="ok", service="pathwise-api")

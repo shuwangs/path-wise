@@ -29,6 +29,10 @@ python -m pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-Default CORS configuration permits localhost and 127.0.0.1 on ports 3000 and 3001. No override is needed for normal development. Optional `CORS_ORIGINS` replaces the default list and must match the frontend's scheme, hostname, and port exactly. `.env.example` is a reference; the application does not load it automatically.
+Default CORS configuration permits localhost and 127.0.0.1 on ports 3000 and 3001. No override is needed for normal development. Optional `CORS_ORIGINS` replaces the default list and must match the frontend's scheme, hostname, and port exactly. `.env.example` is a reference; the API and Alembic load backend/.env automatically; shell variables take precedence.
 
 The verified dependency snapshot in `requirements.lock.txt` includes development dependencies for Python 3.13 / macOS.
+
+## Database
+
+Start PostgreSQL and apply migrations before checking database readiness. See [local database setup](../docs/database.md) for Docker Compose, configuration, migrations, and shutdown commands. `GET /ready` checks the database connection; `GET /health` remains a process health check.
