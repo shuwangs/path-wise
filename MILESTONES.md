@@ -46,10 +46,10 @@ MVP 包含职位发现、排序、证据分析、简历建议和手动申请追�
 - [X] 建立前端、后端、测试与文档目录，记录启动命令。
 - [X] 配置 Python/Node 依赖、锁文件、格式检查和 `.gitignore`。
 - [X] 提供 `.env.example`，区分本地配置与密钥；不提交真实凭证。
-- [ ] 启动 PostgreSQL，配置连接与数据库迁移工具。
-- [ ] 实现 FastAPI 健康检查、结构化错误和 request ID 日志。
-- [ ] 建立 Next.js 页面，验证它能访问后端健康接口。
-- [ ] 为 sources、jobs、job_versions、ingestion_runs 编写初始迁移和关键约束。
+- [X] 启动 PostgreSQL，配置连接与数据库迁移工具。
+- [X] 实现 FastAPI 健康检查、结构化错误和 request ID 日志。
+- [X] 建立 Next.js 页面，验证它能访问后端健康接口。
+- [X] 为 sources、jobs、job_versions、ingestion_runs 编写初始迁移和关键约束。
 - [ ] 记录模块边界、队列候选方案与初步选择，说明为什么暂不增加 Redis 等服务。
 - [ ] 建立 CI：安装依赖、静态检查、构建及必要的数据库集成测试。
 
