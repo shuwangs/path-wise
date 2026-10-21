@@ -224,11 +224,19 @@ backend/    Python + FastAPI backend
 docs/       Architecture and data-source documentation
 ```
 
-See [frontend startup commands](frontend/README.md) and [backend startup commands](backend/README.md) for the intended local workflow. The homepage checks the backend health endpoint and supports retry on failure. Dependency manifests and local configuration examples are included; database integration and product workflows are not implemented yet. Frontend and backend development servers will run in separate terminals on ports 3000 and 8000 respectively.
+See [frontend startup commands](frontend/README.md) and [backend startup commands](backend/README.md) for the intended local workflow. The homepage checks the backend health endpoint and supports retry on failure. Dependency manifests and local configuration examples are included; PostgreSQL connectivity and Alembic migration tracking are included; domain tables and product workflows are not implemented yet. Frontend and backend development servers will run in separate terminals on ports 3000 and 8000 respectively.
 
 ### Local startup (macOS / Linux)
 
-Requirements: Node.js 20.9+ and Python 3.10+. Run the following commands from the repository root in two separate terminals.
+Requirements: Node.js 20.9+, Python 3.10+, and Docker Desktop. Run the following commands from the repository root in two separate terminals.
+
+Start PostgreSQL from the repository root:
+
+```sh
+docker compose up -d --wait db
+```
+
+See [database setup](docs/database.md) for connection settings, inspection, migrations, and shutdown.
 
 Terminal 1 — backend:
 
@@ -237,6 +245,8 @@ cd backend
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+cp -n .env.example .env
+python -m alembic upgrade head
 python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
