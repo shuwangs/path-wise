@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, pool
 
 from app.config import DATABASE_URL
 from app.database import Base
-from app.models import source
+from app.models import Source, Job, JobVersion, IngestionRun
 
 target_metadata = Base.metadata
 
