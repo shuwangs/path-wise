@@ -7,7 +7,7 @@ class IngestionRun(Base):
 
     id = Column(Integer, primary_key=True)
     source_id = Column(Integer, ForeignKey("sources.id"), nullable=False)
-    status = Column(String, nullable=False, default="queued")  # Possible values: queued, running, completed, failed
+    status = Column(String, nullable=False, server_default="queued")  # Possible values: queued, running, completed, failed
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     started_at = Column(DateTime(timezone=True), nullable=True)
     finished_at = Column(DateTime(timezone=True), nullable=True)
